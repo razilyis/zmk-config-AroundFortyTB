@@ -1,22 +1,22 @@
-if SHIELD_ARROUNDFORTY_TB_R
-CONFIG_BT_DEVICE_NAME_MAX=32
-config ZMK_KEYBOARD_NAME
-    default "AroundForty-TB_R"
-
-config ZMK_SPLIT
-    default y
-
-config ZMK_SPLIT_ROLE_CENTRAL
-    default y
-
-endif
+menuconfig SHIELD_ARROUNDFORTY_TB_L
+    bool "Use AroundForty-TB_L shield"
 
 if SHIELD_ARROUNDFORTY_TB_L
 
+config CONFIG_BT_DEVICE_NAME_MAX
+    int "Bluetooth device name maximum length"
+    default 32
+
 config ZMK_KEYBOARD_NAME
+    string "Keyboard name"
     default "AroundForty-TB_L"
 
 config ZMK_SPLIT
+    bool "Split keyboard support"
+    default y
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    bool "Split role central"
     default y
 
 endif
