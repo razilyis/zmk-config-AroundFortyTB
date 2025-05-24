@@ -18,6 +18,7 @@
 #
 ---
 # build.yaml
+
 include:
   - board: seeeduino_xiao_ble
     shield: AroundForty-TB_R
