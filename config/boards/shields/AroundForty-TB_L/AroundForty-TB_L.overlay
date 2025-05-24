@@ -73,12 +73,12 @@
         map        = <&behavior_scroll_v>;
     };
 
-    behavior_scroll_h: behavior@h {
+    behavior_scroll_h: behavior@0 {
         compatible    = "zmk,behavior-scroll";
         label         = "HSCROLL";
         scroll-amount = <100>;
     };
-    behavior_scroll_v: behavior@v {
+    behavior_scroll_v: behavior@1 {
         compatible    = "zmk,behavior-scroll";
         label         = "VSCROLL";
         scroll-amount = <100>;
