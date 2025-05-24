@@ -58,27 +58,27 @@
         axis   = <1>;
     };
 
-    pointing_device_scroll: pointing_input@1 {
+    pointing_device_scroll: pointing_input {
         compatible = "zmk,pointing_input";
         trackballs = <&trackball_lb>;
         status     = "okay";
     };
 
-    scroll_x_transform: input_transform@0 {
+    scroll_x_transform: input_transform {
         compatible = "zmk,input_transform";
         map        = <&behavior_scroll_h>;
     };
-    scroll_y_transform: input_transform@1 {
+    scroll_y_transform: input_transform {
         compatible = "zmk,input_transform";
         map        = <&behavior_scroll_v>;
     };
 
-    behavior_scroll_h: behavior@0 {
+    behavior_scroll_h: behavior_scroll_h {
         compatible    = "zmk,behavior-scroll";
         label         = "HSCROLL";
         scroll-amount = <100>;
     };
-    behavior_scroll_v: behavior@1 {
+    behavior_scroll_v: behavior_scroll_v {
         compatible    = "zmk,behavior-scroll";
         label         = "VSCROLL";
         scroll-amount = <100>;
