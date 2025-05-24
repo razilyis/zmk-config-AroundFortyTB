@@ -20,9 +20,8 @@
 # build.yaml
 include:
   - board: seeeduino_xiao_ble
-    shield: AroundForty-TB_R rgbled_adapter
-    snippet: studio-rpc-usb-uart
+    shield: AroundForty-TB_R
   - board: seeeduino_xiao_ble
-    shield: AroundForty-TB_L rgbled_adapter
+    shield: AroundForty-TB_L
   - board: seeeduino_xiao_ble
     shield: settings_reset
