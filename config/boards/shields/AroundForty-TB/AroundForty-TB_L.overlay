@@ -1,101 +1,97 @@
 #include "AroundForty-TB.dtsi"
 
+/* --- キー行列定義（既存のまま） */
 &kscan0 {
-        col-gpios
-            = <&xiao_d 10 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 9 GPIO_ACTIVE_HIGH> 
-            , <&xiao_d 8 GPIO_ACTIVE_HIGH> 
-            , <&xiao_d 7 GPIO_ACTIVE_HIGH> 
-            , <&gpio0 10 GPIO_ACTIVE_HIGH>
-            , <&gpio0 9 GPIO_ACTIVE_HIGH>
-            ;
+    col-gpios = 
+        <&xiao_d 10 GPIO_ACTIVE_HIGH>,
+        <&xiao_d 9  GPIO_ACTIVE_HIGH>,
+        <&xiao_d 8  GPIO_ACTIVE_HIGH>,
+        <&xiao_d 7  GPIO_ACTIVE_HIGH>,
+        <&gpio0 10 GPIO_ACTIVE_HIGH>,
+        <&gpio0  9 GPIO_ACTIVE_HIGH>;
 };
 
-/* ———————————————————————————————————————————— */
-/* 以下を追加／置き換え */
-
-/* 1) SPI1 用 pinctrl 定義 */
+/* --- 1) SPI1 用 pinctrl 定義 --- */
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 4)>;
+            psels = 
+                <NRF_PSEL(SPIM_SCK,  0, 5)>,   /* SCLK → P0.05 */
+                <NRF_PSEL(SPIM_MOSI, 0, 4)>,   /* SDIO → P0.04 */
+                <NRF_PSEL(SPIM_MISO, 0, 4)>;   /* SDIO → P0.04 */
         };
     };
     spi1_sleep: spi1_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 4)>;
+            psels = 
+                <NRF_PSEL(SPIM_SCK,  0, 5)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
+                <NRF_PSEL(SPIM_MISO, 0, 4)>;
             low-power-enable;
         };
     };
 };
 
-/* 2) 不要なシリアルを無効化（任意） */
-&xiao_serial { status = "disabled"; };
+/* --- 2) シリアル無効化（任意） --- */
+&xiao_serial {
+    status = "disabled";
+};
 
-/* 3) SPI1 の物理配線に合わせて上書き */
+/* --- 3) SPI1 本体設定 --- */
 &spi1 {
-    status       = "okay";
-    compatible   = "nordic,nrf-spim";
-    pinctrl-0    = <&spi1_default>;
-    pinctrl-1    = <&spi1_sleep>;
-    pinctrl-names= "default", "sleep";
+    status        = "okay";
+    compatible    = "nordic,nrf-spim";
+    pinctrl-0     = <&spi1_default>;
+    pinctrl-1     = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
 
-    sck-gpios    = <&gpio0 5 GPIO_ACTIVE_HIGH>;      /* SCLK  → P0.05 */
-    mosi-gpios   = <&gpio0 4 GPIO_ACTIVE_HIGH>;      /* SDIO  → P0.04 */
-    miso-gpios   = <&gpio0 4 GPIO_ACTIVE_HIGH>;      /* SDIO  → P0.04 */
-    cs-gpios     = <&gpio0 9 GPIO_ACTIVE_LOW>;       /* NCS   → P0.09 */
+    /* チップセレクトだけ上書き */
+    cs-gpios      = <&gpio0 9 GPIO_ACTIVE_LOW>;   /* NCS → P0.09 */
 
+    /* 左手トラックボール (PMW3610) */
     trackball_lb: trackball@1 {
-        status            = "okay";
         compatible        = "pixart,pmw3610";
         reg               = <1>;
         spi-max-frequency = <2000000>;
         irq-gpios         = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* MOTION → P0.02 */
+        status            = "okay";
     };
 };
 
-/* 4) Split クライアント & スクロールデバイス定義 */
-/ {
+/* --- 4) Split クライアント化 & スクロール設定 --- */
+ / {
     compatible = "zmk,split";
     split {
         status = "okay";
         axis   = <1>;
     };
 
-    /* 左手側トラックボール → 常時スクロール */
+    /* 左手側トラックボールをスクロール入力として扱う */
     pointing_device_scroll: pointing_input@1 {
-        compatible = "zmk,pointing_input";
-        trackballs = <&trackball_lb>;
-        status     = "okay";
+        compatible  = "zmk,pointing_input";
+        trackballs  = <&trackball_lb>;
+        status      = "okay";
     };
 
-    /* 水平スクロール変換 */
+    /* 水平／垂直スクロール変換 */
     scroll_x_transform: input_transform@0 {
         compatible = "zmk,input_transform";
         map        = <&behavior_scroll_h>;
     };
-
-    /* 垂直スクロール変換 */
     scroll_y_transform: input_transform@1 {
         compatible = "zmk,input_transform";
         map        = <&behavior_scroll_v>;
     };
 
-    /* スクロールビヘイビア定義 */
+    /* スクロールビヘイビア */
     behavior_scroll_h: behavior@h {
         compatible    = "zmk,behavior-scroll";
         label         = "HSCROLL";
-        scroll-amount = <100>;
+        scroll-amount = <100>;  /* お好みで調整 */
     };
-
     behavior_scroll_v: behavior@v {
         compatible    = "zmk,behavior-scroll";
         label         = "VSCROLL";
-        scroll-amount = <100>; 
+        scroll-amount = <100>;  /* お好みで調整 */
     };
 };
-/* ———————————————————————————————————————————— */
