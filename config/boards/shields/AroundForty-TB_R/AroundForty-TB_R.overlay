@@ -70,7 +70,7 @@
         axis   = <1>;
     };
 
-    pointing_device_pointer: pointing_input@0 {
+    pointing_device_pointer: pointing_input {
         compatible = "zmk,pointing_input";
         trackballs = <&trackball>;
         status     = "okay";
