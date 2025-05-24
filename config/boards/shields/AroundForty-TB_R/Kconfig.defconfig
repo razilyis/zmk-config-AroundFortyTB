@@ -1,11 +1,9 @@
-# 右手用デフォルト設定
-
-# キーボード名（Bluetooth デバイス名としても使われる）
+# キーボード名（Bluetooth デバイス名）
 CONFIG_BT_DEVICE_NAME="AroundForty-TB_R"
 
-# Bluetooth 名の最大長を 32 に延長
+# Bluetooth 名の最大長を 32 に拡張
 CONFIG_BT_DEVICE_NAME_MAX=32
 
-# Split 設定（既存項目があれば残してください）
+# Split keyboard support
 CONFIG_ZMK_SPLIT=y
 CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
