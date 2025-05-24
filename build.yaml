@@ -17,11 +17,19 @@
 #     artifact-name: corne_left_with_logging
 #
 ---
+# build.yaml
 include:
   - board: seeeduino_xiao_ble
-    shield: AroundForty-TB_R rgbled_adapter
-    snippet: studio-rpc-usb-uart
+    shield: AroundForty-TB_R        # 右手用 Overlay はこの１つ
+    snippet:
+      - rgbled_adapter              # rgbled_adapter スニペットを追加
+      - studio-rpc-usb-uart         # もし必要ならこのスニペットも
+
   - board: seeeduino_xiao_ble
-    shield: AroundForty-TB_L rgbled_adapter
+    shield: AroundForty-TB_L        # 左手用 Overlay はこの１つ
+    snippet:
+      - rgbled_adapter              # 同様にスニペットを追加
+      - studio-rpc-usb-uart
+
   - board: seeeduino_xiao_ble
-    shield: settings_reset
+    shield: settings_reset          # 既存の settings_reset はそのまま
