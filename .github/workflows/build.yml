@@ -1,25 +1,5 @@
-name: ZMK Firmware CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build_right:
+  build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
-    with:
-      board: seeeduino_xiao_ble
-      # 右手Overlayのみ指定
-      overlays: |
-        config/boards/shields/AroundForty-TB/AroundForty-TB_R.overlay
-
-  build_left:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
-    with:
-      board: seeeduino_xiao_ble
-      # 左手Overlayのみ指定
-      overlays: |
-        config/boards/shields/AroundForty-TB/AroundForty-TB_L.overlay
