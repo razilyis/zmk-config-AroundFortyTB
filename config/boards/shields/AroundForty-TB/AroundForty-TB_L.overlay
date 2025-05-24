@@ -89,13 +89,13 @@
     behavior_scroll_h: behavior@h {
         compatible    = "zmk,behavior-scroll";
         label         = "HSCROLL";
-        scroll-amount = <ZMK_POINTING_DEFAULT_SCRL_VAL>;
+        scroll-amount = <100>;
     };
 
     behavior_scroll_v: behavior@v {
         compatible    = "zmk,behavior-scroll";
         label         = "VSCROLL";
-        scroll-amount = <ZMK_POINTING_DEFAULT_SCRL_VAL>;
+        scroll-amount = <100>; 
     };
 };
 /* ———————————————————————————————————————————— */
