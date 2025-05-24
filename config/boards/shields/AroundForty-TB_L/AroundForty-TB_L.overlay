@@ -11,12 +11,12 @@
         <&gpio0  9 GPIO_ACTIVE_HIGH>;
 };
 
-/* 1) SPI1 pinctrl 定義 */
+/* --- 1) SPI1 pinctrl 定義 --- */
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
             psels = 
-                <NRF_PSEL(SPIM_SCK,  0, 5)>, 
+                <NRF_PSEL(SPIM_SCK,  0, 5)>,
                 <NRF_PSEL(SPIM_MOSI, 0, 4)>,
                 <NRF_PSEL(SPIM_MISO, 0, 4)>;
         };
@@ -32,7 +32,7 @@
     };
 };
 
-/* 2) SPI1 本体設定 */
+/* --- 2) SPI1 本体設定 --- */
 &spi1 {
     status        = "okay";
     compatible    = "nordic,nrf-spim";
@@ -41,6 +41,7 @@
     pinctrl-names = "default", "sleep";
 
     cs-gpios      = <&gpio0 9 GPIO_ACTIVE_LOW>;
+
     trackball_lb: trackball@1 {
         compatible        = "pixart,pmw3610";
         reg               = <1>;
@@ -50,7 +51,7 @@
     };
 };
 
-/* 3) Split クライアント化 & スクロール定義 */
+/* --- 3) Split クライアント化 & スクロール定義 --- */
  / {
     compatible = "zmk,split";
     split {
@@ -58,26 +59,34 @@
         axis   = <1>;
     };
 
+    /* スクロール入力デバイス */
     pointing_device_scroll: pointing_input {
         compatible = "zmk,pointing_input";
         trackballs = <&trackball_lb>;
         status     = "okay";
     };
+
+    /* 水平スクロール変換 */
     scroll_x_transform: input_transform@0 {
         compatible = "zmk,input_transform";
-        reg        = <0>;                            /* ユニットアドレスに対応 */
+        reg        = <0>;
         map        = <&behavior_scroll_h>;
-};
+    };
+
+    /* 垂直スクロール変換 */
     scroll_y_transform: input_transform@1 {
         compatible = "zmk,input_transform";
-        reg        = <1>;                            /* ユニットアドレスに対応 */
+        reg        = <1>;
         map        = <&behavior_scroll_v>;
+    };
 
+    /* スクロールビヘイビア */
     behavior_scroll_h: behavior_scroll_h {
         compatible    = "zmk,behavior-scroll";
         label         = "HSCROLL";
         scroll-amount = <100>;
     };
+
     behavior_scroll_v: behavior_scroll_v {
         compatible    = "zmk,behavior-scroll";
         label         = "VSCROLL";
