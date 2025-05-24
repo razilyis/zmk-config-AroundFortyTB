@@ -63,15 +63,15 @@
         trackballs = <&trackball_lb>;
         status     = "okay";
     };
-
-    scroll_x_transform: input_transform {
+    scroll_x_transform: input_transform@0 {
         compatible = "zmk,input_transform";
+        reg        = <0>;                            /* ユニットアドレスに対応 */
         map        = <&behavior_scroll_h>;
-    };
-    scroll_y_transform: input_transform {
+};
+    scroll_y_transform: input_transform@1 {
         compatible = "zmk,input_transform";
+        reg        = <1>;                            /* ユニットアドレスに対応 */
         map        = <&behavior_scroll_v>;
-    };
 
     behavior_scroll_h: behavior_scroll_h {
         compatible    = "zmk,behavior-scroll";
