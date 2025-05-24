@@ -1,50 +1,5 @@
-name: ZMK カスタムビルド
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    env:
-      ZEPHYR_TOOLCHAIN_VARIANT: zephyr
-      ZEPHYR_BASE: ${{ runner.workspace }}/zephyrproject/zephyr
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Python と West のセットアップ
-        uses: actions/setup-python@v4
-        with: { python-version: '3.9' }
-      - run: |
-          pip install --upgrade pip
-          pip install west
-          pip install -r documentation/scripts/requirements.txt || echo "no extra requirements"
-
-      - name: ZMK モジュールを取得
-        run: |
-          west init -l app
-          west update
-
-      - name: Build Right (Server)
-        working-directory: app
-        run: |
-          west build -b seeeduino_xiao_ble \
-            -- -DDTC_OVERLAY_FILE=../config/boards/shields/AroundForty-TB/AroundForty-TB_R.overlay
-
-      - name: Build Left (Client)
-        working-directory: app
-        run: |
-          west build -b seeeduino_xiao_ble \
-            -- -DDTC_OVERLAY_FILE=../config/boards/shields/AroundForty-TB/AroundForty-TB_L.overlay
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: zmk-firmware
-          path: |
-            app/build/zephyr/zmk.uf2
-            app/build/zephyr/zmk.bin
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
