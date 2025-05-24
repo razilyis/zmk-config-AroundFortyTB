@@ -69,14 +69,14 @@
     /* 水平スクロール変換 */
     scroll_x_transform: input_transform@0 {
         compatible = "zmk,input_transform";
-        reg        = <0 0>;
+        reg        = <0 1>;
         map        = <&behavior_scroll_h>;
     };
 
     /* 垂直スクロール変換 */
     scroll_y_transform: input_transform@1 {
         compatible = "zmk,input_transform";
-        reg        = <1 0>;
+        reg        = <1 1>;
         map        = <&behavior_scroll_v>;
     };
 
