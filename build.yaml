@@ -20,22 +20,19 @@
 # build.yaml
 
 include:
-  # 1) 右手：リセット用ファームウェア
+  # 右手リセット用
+  - board: seeeduino_xiao_ble
+    shield: settings_reset
+
+  # 右手通常用
   - board: seeeduino_xiao_ble
     shield: AroundForty-TB_R
-    snippet: settings_reset
 
-  # 2) 右手：通常用ファームウェア
+  # 左手リセット用
   - board: seeeduino_xiao_ble
-    shield: AroundForty-TB_R
-    snippet: rgbled_adapter
+    shield: settings_reset
 
-  # 3) 左手：リセット用ファームウェア
+  # 左手通常用
   - board: seeeduino_xiao_ble
     shield: AroundForty-TB_L
-    snippet: settings_reset
 
-  # 4) 左手：通常用ファームウェア
-  - board: seeeduino_xiao_ble
-    shield: AroundForty-TB_L
-    snippet: rgbled_adapter
