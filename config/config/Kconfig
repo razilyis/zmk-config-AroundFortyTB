@@ -1,0 +1,11 @@
+menu "AroundForty-TB configuration options"
+
+config ZMK_SPLIT_POINTING
+    bool "Forward pointing events between split halves"
+    depends on ZMK_SPLIT && ZMK_POINTING
+    help
+      Enable support for forwarding pointing device reports between split
+      halves. Set this to "y" on builds that need to share pointing data
+      across the split link.
+
+endmenu
