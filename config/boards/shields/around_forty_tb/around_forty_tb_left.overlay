@@ -1,4 +1,5 @@
 #include "around_forty_tb.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 &kscan0 {
     col-gpios
@@ -45,9 +46,9 @@
         invert-x;
         force-awake;
         /* スクロールとして設定 */
-        evt-type = <2>;
-        y-input-code = <8>; /* 縦スクロール */
-        x-input-code = <6>; /* 横スクロール */
+        evt-type = <INPUT_EV_REL>;
+        y-input-code = <INPUT_REL_WHEEL>;
+        x-input-code = <INPUT_REL_HWHEEL>;
     };
 };
 
