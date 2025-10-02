@@ -52,15 +52,8 @@
 };
 
 / {
-    /* センサーとしての定義と、入力処理の定義を統合 */
-    sensors {
-        compatible = "zmk,keymap-sensors";
-        sensors = <&trackball>;
-        triggers-per-rotation = <20>;
-    };
-
-    trackball_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackball>;
-    };
+  trackball_listener {
+    compatible = "zmk,input-listener";
+    device = <&trackball>;
+  };
 };
