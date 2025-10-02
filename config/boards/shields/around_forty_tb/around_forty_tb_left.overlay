@@ -45,10 +45,10 @@
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         invert-x;
         force-awake;
-        /* ▼▼ カーソルとして設定 ▼▼ */
+        /* スクロールとして設定 */
         evt-type = <2>;
-        y-input-code = <1>; /* Y軸の動き */
-        x-input-code = <0>; /* X軸の動き */
+        y-input-code = <8>; /* 縦スクロール */
+        x-input-code = <6>; /* 横スクロール */
     };
 };
 
