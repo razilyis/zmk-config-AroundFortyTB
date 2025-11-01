@@ -1,23 +1,13 @@
-#include "AroundForty-TB.dtsi"
-#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include "around_forty_tb.dtsi"
 
 &kscan0 {
-    row-gpios =
-        <&xiao_d R0 GPIO_ACTIVE_LOW>,
-        <&xiao_d R1 GPIO_ACTIVE_LOW>,
-        <&xiao_d R2 GPIO_ACTIVE_LOW>,
-        <&xiao_d R3 GPIO_ACTIVE_LOW>;
-
-    col-gpios =
-        <&xiao_d 10 GPIO_ACTIVE_LOW>,
-        <&xiao_d  9 GPIO_ACTIVE_LOW>,
-        <&xiao_d  8 GPIO_ACTIVE_LOW>,
-        <&xiao_d  7 GPIO_ACTIVE_LOW>,
-        <&xiao_d  6 GPIO_ACTIVE_LOW>;
-
-    diode-direction = "col2row";
-    debounce-press-ms = <3>;
-    debounce-release-ms = <5>;
+    col-gpios
+        = <&xiao_d 10 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 9 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 8 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 7 GPIO_ACTIVE_HIGH>
+        , <&gpio0 10 GPIO_ACTIVE_HIGH>
+        ;
 };
 
 &pinctrl {
@@ -39,6 +29,10 @@
     };
 };
 
+&trackball_split_L {
+    device = <&trackball_L>;
+};
+
 &spi0 {
     status = "okay";
     compatible = "nordic,nrf-spim";
@@ -47,33 +41,17 @@
     pinctrl-names = "default", "sleep";
     cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
 
-    /* トラックボールの定義 */
-    trackball: trackball@0 {
+    trackball_L: trackball_L@0 {
         status = "okay";
         compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        cpi = <600>;
+        cpi = <400>;
+        invert-x;
         evt-type = <INPUT_EV_REL>;
-        /* Y軸(上下)の動きを垂直スクロールに */
-        y-input-code = <INPUT_REL_WHEEL>;
-        /* X軸(左右)の動きを水平スクロールに */
-        x-input-code = <INPUT_REL_HWHEEL>;
+        x-input-code = <INPUT_REL_Y>;
+        y-input-code = <INPUT_REL_X>;
+        force-awake;
     };
-};
-
-/ {
-    /* trackballを監視するリスナー */
-    trackball_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackball>;
-    };
-};
-
-
-/* 共有dtsiで作ったsplitノードに、この左センサーを登録する */
-&tb_left_split {
-    /* ★修正点: 上で定義した "trackball" を正しく参照するように変更 */
-    device = <&trackball>;
 };
