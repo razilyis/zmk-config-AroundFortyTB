@@ -1,7 +1,6 @@
-#include "AroundForty-TB.dtsi"
-#include <input/processors.dtsi>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
 
+#include "around_forty_tb.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 &default_transform {
     col-offset = <5>;
 };
@@ -16,69 +15,54 @@
             ;
 };
 
-/ {
-    trackball_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackball>;
-
-    };
-};
 
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                <NRF_PSEL(SPIM_MISO, 0, 4)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 4)>;
         };
     };
 
     spi0_sleep: spi0_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                <NRF_PSEL(SPIM_MISO, 0, 4)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 4)>;
             low-power-enable;
         };
     };
 };
 
-&xiao_serial { status = "disabled"; };
+&trackball_listener_L {
+    status = "okay";
+};
+
+&trackball_listener_R {
+    status = "okay";
+    device = <&trackball_R>;
+};
 
 &spi0 {
     status = "okay";
-    compatible = "nordic,nrf-spim";
+    cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
+    compatible = "nordic,nrf-spim";
 
-    trackball: trackball@0 {
+    trackball_R: trackball_R@0 {
         status = "okay";
         compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        // optional: swap-xy; invert-x; invert-y;
+        cpi = <400>;
+        invert-y;
         evt-type = <INPUT_EV_REL>;
-        // optional: swap-xy; invert-y;
-        x-input-code = <INPUT_REL_X>;
-        y-input-code = <INPUT_REL_Y>;
-        cpi = <800>;
-
-/* 共有dtsi内のリスナーをCentralで有効化し、XY→スクロールを割り当て */
-&tb_left_listener {
-    status = "okay";
-    device = <&tb_left_split>;             /* 念のため明示 */
-    input-processors = <&zip_xy_to_scroll_mapper>;
-    /* 速度調整したいとき（例：1.5倍） */
-    // input-processors = <&zip_xy_to_scroll_mapper &zip_xy_scaler 3 2>;
-    /* 方向が逆ならトランスフォーム */
-    // input-processors = <&zip_xy_to_scroll_mapper &zip_transform (INPUT_TRANSFORM_Y_INVERT)>;
-};
-
-
+        x-input-code = <INPUT_REL_Y>;
+        y-input-code = <INPUT_REL_X>;
+        force-awake;
     };
 };
-
-
