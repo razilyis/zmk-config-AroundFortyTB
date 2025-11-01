@@ -5,7 +5,7 @@ manifest:
     - name: razilyis
       url-base: https://github.com/razilyis
     - name: caksoylar
-      url-base: https://github.com/caksoylar  
+      url-base: https://github.com/caksoylar
   projects:
     - name: zmk
       remote: zmkfirmware
