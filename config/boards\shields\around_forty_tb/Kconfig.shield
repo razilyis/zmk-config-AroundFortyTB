@@ -1,0 +1,5 @@
+config SHIELD_AROUND_FORTY_TB_RIGHT
+    def_bool $(shields_list_contains,around_forty_tb_right)
+
+config SHIELD_AROUND_FORTY_TB_LEFT
+    def_bool $(shields_list_contains,around_forty_tb_left)
