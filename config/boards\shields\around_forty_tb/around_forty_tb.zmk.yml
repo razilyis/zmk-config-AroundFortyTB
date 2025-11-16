@@ -1,8 +1,0 @@
-file_format: "1"
-id: AroundForty-TB
-name: AroundForty-TB
-type: shield
-url: https://github.com/razilyis/zmk-config-AroundForty-TB
-requires: [seeeduino_xiao_ble]
-features:
-  - keys
