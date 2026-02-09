@@ -16,19 +16,9 @@
     combos {
         compatible = "zmk,combos";
 
-        Escape {
-            bindings = <&kp ESCAPE>;
-            key-positions = <0 1>;
-        };
-
-        Lang1 {
-            bindings = <&kp LANGUAGE_1>;
-            key-positions = <13 12>;
-        };
-
-        Lang2 {
-            bindings = <&kp LANGUAGE_2>;
-            key-positions = <16 17>;
+        Combo-ALT {
+            bindings = <&kp LEFT_ALT>;
+            key-positions = <30 31>;
         };
     };
 
@@ -63,16 +53,25 @@
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
+        Mac-Default_Layer {
+            bindings = <
+&kp Q             &kp W         &kp E           &kp R             &kp T        &kp Y  &kp U          &kp I        &kp O        &kp P
+&kp A             &kp S         &kp D           &kp F             &kp G        &kp H  &kp J          &kp K        &kp L        &kp MINUS
+&mt LEFT_SHIFT Z  &kp X         &kp C           &kp V             &kp B        &kp N  &kp M          &kp COMMA    &kp PERIOD   &mt LEFT_SHIFT SLASH
+&kp LCTRL         &kp LEFT_GUI  &kp LANGUAGE_1  &lt 6 LANGUAGE_2  &lt 2 SPACE  &mo 7  &kp BACKSPACE  &kp AT_SIGN  &lt 4 ENTER  &mt LEFT_ALT DELETE
+            >;
+        };
+
+        Win-Default_Layer {
             bindings = <
 &kp Q             &kp W         &kp E           &kp R             &kp T        &kp Y           &kp U          &kp I        &kp O        &kp P
 &kp A             &kp S         &kp D           &kp F             &kp G        &kp H           &kp J          &kp K        &kp L        &kp MINUS
 &mt LEFT_SHIFT Z  &kp X         &kp C           &kp V             &kp B        &kp N           &kp M          &kp COMMA    &kp PERIOD   &mt LEFT_SHIFT SLASH
-&kp LCTRL         &kp LEFT_GUI  &kp LANGUAGE_1  &lt 3 LANGUAGE_2  &lt 1 SPACE  &lt 4 LEFT_ALT  &kp BACKSPACE  &kp AT_SIGN  &lt 2 ENTER  &kp DELETE
+&kp LCTRL         &kp LEFT_GUI  &kp LANGUAGE_1  &lt 6 LANGUAGE_2  &lt 3 SPACE  &lt 7 LEFT_ALT  &kp BACKSPACE  &kp AT_SIGN  &lt 5 ENTER  &kp DELETE
             >;
         };
 
-        Function_Layer {
+        Mac-Function_Layer {
             bindings = <
 &kp LG(A)       &kp LG(X)     &kp LG(C)    &kp LG(V)  &kp LG(F)  &kp LESS_THAN         &kp GREATER_THAN       &kp CARET        &kp PERCENT    &kp DOLLAR
 &kp TAB         &kp LEFT_GUI  &kp LS(TAB)  &mkp MB1   &mkp MB2   &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp AT_SIGN      &kp AMPERSAND  &kp DOUBLE_QUOTES
@@ -81,7 +80,16 @@
             >;
         };
 
-        Common_Layer {
+        Win-Function_Layer {
+            bindings = <
+&kp LC(A)       &kp LC(X)     &kp LC(C)    &kp LC(V)  &kp LS(LC(F))  &kp LESS_THAN         &kp GREATER_THAN       &kp CARET        &kp PERCENT    &kp DOLLAR
+&kp TAB         &kp LEFT_ALT  &kp LS(TAB)  &mkp MB1   &mkp MB2       &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp AT_SIGN      &kp AMPERSAND  &kp DOUBLE_QUOTES
+&kp LEFT_SHIFT  &trans        &trans       &trans     &mkp MB3       &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp EXCLAMATION  &kp QUESTION   &kp SQT
+&kp LCTRL       &trans        &trans       &trans     &trans         &trans                &kp BACKSPACE          &trans           &kp ENTER      &kp HASH
+            >;
+        };
+
+        Mac-Common_Layer {
             bindings = <
 &kp ESCAPE      &trans        &trans       &kp LG(UP_ARROW)    &trans               &kp LG(W)          &kp LG(LEFT_ARROW)  &mkp MB3        &kp LG(RIGHT_ARROW)  &kp HOME
 &kp TAB         &kp LEFT_GUI  &kp LS(TAB)  &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)  &kp LC(PAGE_UP)    &mkp MB1            &kp UP_ARROW    &mkp MB2             &kp PAGE_UP
@@ -90,7 +98,16 @@
             >;
         };
 
-        Scroll_Layer {
+        Win-Common_Layer {
+            bindings = <
+&kp ESCAPE      &trans        &trans       &kp LG(UP_ARROW)    &trans               &kp LC(W)          &kp LA(LEFT_ARROW)  &mkp MB3        &kp LA(RIGHT_ARROW)  &kp HOME
+&kp TAB         &kp LEFT_ALT  &kp LS(TAB)  &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)  &kp LC(PAGE_UP)    &mkp MB1            &kp UP_ARROW    &mkp MB2             &kp PAGE_UP
+&kp LEFT_SHIFT  &trans        &trans       &kp LG(DOWN_ARROW)  &trans               &kp LC(PAGE_DOWN)  &kp LEFT_ARROW      &kp DOWN_ARROW  &kp RIGHT_ARROW      &kp PAGE_DOWN
+&kp LCTRL       &trans        &trans       &trans              &trans               &trans             &trans              &kp LC(T)       &trans               &kp END
+            >;
+        };
+
+        Num_Layer {
             bindings = <
 &kp F1   &kp F2   &kp F3  &kp F4  &kp F5   &kp PLUS      &kp MINUS      &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9
 &kp F6   &kp F7   &kp F8  &kp F9  &kp F10  &kp EQUAL     &kp COLON      &kp N4        &kp N5        &kp N6
@@ -101,28 +118,10 @@
 
         Setting_Layer {
             bindings = <
-&studio_unlock  &trans  &trans  &trans  &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3    &bt BT_SEL 4
-&trans          &trans  &trans  &trans  &trans  &trans        &trans        &trans        &trans          &trans
-&trans          &trans  &trans  &trans  &trans  &trans        &ind_bat      &trans        &trans          &bt BT_CLR
-&trans          &trans  &trans  &trans  &trans  &trans        &sys_reset    &bootloader   &studio_unlock  &bt BT_CLR_ALL
-            >;
-        };
-
-        layer_5 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-            >;
-        };
-
-        LAYER_6 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&studio_unlock  &trans  &trans  &trans  &trans  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2    &bt BT_SEL 3  &bt BT_SEL 4
+&trans          &trans  &trans  &trans  &trans  &trans        &trans        &trans          &trans        &trans
+&trans          &trans  &trans  &trans  &trans  &trans        &ind_bat      &trans          &trans        &bt BT_CLR
+&trans          &trans  &to 0   &to 1   &trans  &trans        &sys_reset    &studio_unlock  &bootloader   &bt BT_CLR_ALL
             >;
         };
     };
