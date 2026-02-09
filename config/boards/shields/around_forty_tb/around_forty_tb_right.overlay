@@ -37,11 +37,16 @@
 
 &trackball_listener_L {
     status = "okay";
+    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>,
+                       <&zip_xy_scaler 1 48>,
+                       <&zip_xy_to_scroll_mapper>;
 };
 
 &trackball_listener_R {
     status = "okay";
     device = <&trackball_R>;
+    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT)>,
+                       <&zip_xy_scaler 1 1>;
 };
 
 &spi0 {
@@ -54,15 +59,14 @@
 
     trackball_R: trackball_R@0 {
         status = "okay";
-        compatible = "pixart,pmw3610";
+        compatible = "pixart,pmw3610-alt";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         cpi = <400>;
-        invert-y;
         evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_Y>;
-        y-input-code = <INPUT_REL_X>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
         force-awake;
     };
 };
